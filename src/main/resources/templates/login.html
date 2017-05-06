@@ -69,10 +69,15 @@
 			$("#showmsg").html("请输入密码");
 			return false;
 		}
+		if(remeberme == 'on'){
+			remeberme = 1;
+		}else{
+			remeberme = 0;
+		}
 		$.ajax({
 			url: "/login",
 			type: "POST",
-			data: {username:username,password:password,_spring_security_remember_me:remeberme},
+			data: {username:username,password:password,rememberMe:remeberme},
 			dataType: "json",
 			success: function(data){
 	    		if(data.success){

@@ -37,7 +37,7 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
 						accessDeniedException);
 
 				// Set the 403 status code.
-				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+				//response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 				request.setAttribute("error", accessDeniedException.getMessage());
 				// forward to error page.
 				RequestDispatcher dispatcher = request.getRequestDispatcher(errorPage);

@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/static/**","/denied");
+		web.ignoring().antMatchers("/static/**","/denied","/favicon.ico");
 		web.debug(true);
 	}
  
@@ -83,9 +83,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.maximumSessions(20);
 
 		// RemeberMe
-		 http.rememberMe().key("webmvc#FD637E6D9C0F1A5A67082AF56CE32485");
+		 http.rememberMe().userDetailsService(userDetailsService).rememberMeParameter("rememberMe");
 
 	}
+	
+	
 
 
 	@Bean(name = "authenticationManager")

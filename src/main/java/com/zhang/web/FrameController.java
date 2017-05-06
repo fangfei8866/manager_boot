@@ -27,7 +27,7 @@ public class FrameController{
 	@RequestMapping(value ={"","/","/index"})
 	public String index(ModelMap map,HttpServletRequest request) {
 		request.getSession().setAttribute("nana", "dsssssssssssssssss");
-		return "test";
+		return "index";
 	} 
 	/**
 	 * 跳转到首页
