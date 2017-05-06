@@ -1,4 +1,4 @@
-package com.zhang.config;
+package com.zhang.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,7 +7,7 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 @Configuration
-public class MyThymeleafConfig {
+public class ConfigThymeleaf {
 	
 	@Bean
 	public TemplateEngine templateEngine(){
