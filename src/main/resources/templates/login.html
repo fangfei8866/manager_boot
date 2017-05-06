@@ -1,0 +1,98 @@
+<div th:replace="includeFTL/header"></div>
+<body>
+    <div class="container-fluid larry-wrapper">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-4 col-md-offset-4 col-sm-offset-2 ">
+                <!--头部搜索-->
+                <section class="panel panel-padding login-pane">
+                    <h1 class="head-title">登录</h1>
+                    <div id="showmsg"></div>
+                    <div class="layui-form layui-form-pane">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><i class="iconfont">&#xe672;</i> 帐号</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="username" required jq-verify="required" placeholder="登录帐号" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"><i class="iconfont">&#xe609;</i> 密码</label>
+                            <div class="layui-input-block">
+                                <input type="password" id="password" required jq-verify="required" placeholder="登录密码" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline">
+                                <input type="text" id="captcha"  placeholder="验证码" autocomplete="off" class="layui-input">
+
+                            </div>
+                            <div class="layui-input-inline"> <img src="/static/jqadmin/images/code.png" alt="" /></div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline">
+                                <input type="checkbox" id="remeberme" lay-skin="switch" checked>
+                                <span class="font-pt">记住我的登录</span>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" onclick="submit_()">立即提交</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/static/jqadmin/js/layui/layui.js"></script>
+<script src="/static/jquery.min.js"></script>
+<script type="text/javascript" src="/static/jqadmin/js/version.js"></script>
+<script>
+    layui.use('form');
+	$(function(){
+		$("#username,#password").focus(function(){
+			$("#showmsg").html("");
+		});
+	});
+	
+	function submit_(){
+		var username = $.trim($("#username").val());
+		var password = $.trim($("#password").val());
+		var remeberme = $("#remeberme").val();
+		var captcha= $.trim($("#captcha").val());
+		if(username == ''){
+			$("#showmsg").html("请输入姓名");
+			return false;
+		}
+		if(password == ''){
+			$("#showmsg").html("请输入密码");
+			return false;
+		}
+		$.ajax({
+			url: "/login",
+			type: "POST",
+			data: {username:username,password:password,_spring_security_remember_me:remeberme},
+			dataType: "json",
+			success: function(data){
+	    		if(data.success){
+	    			 window.location.href = '/admin/index';
+	    		}else{
+	    			 $("#showmsg").html(data.msg);
+	    		}
+	    	}
+    	});
+	}
+	
+	document.onkeydown = function(event_e){
+	    if(window.event){    
+	     	event_e = window.event;
+	    }    
+	    var int_keycode = event_e.charCode||event_e.keyCode;    
+	    if(int_keycode ==13){   
+	    	  submit();
+	    }  
+	} 
+</script>
+
+</html>

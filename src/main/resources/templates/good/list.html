@@ -1,0 +1,88 @@
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<div th:replace="includeFTL/header"></div>
+<body>
+    <div class="container-fluid larry-wrapper">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <!--头部搜索-->
+                <section class="panel panel-padding">
+                        <div class="layui-form">
+                            <div class="layui-inline">
+                                <select id="status" >
+                                    <option value="-1">启用状态</option>
+                                     <option value="1">新建</option>
+                                    <option value="2">启用</option>
+                                    <option value="3">隐藏</option>
+                                     
+                                </select>
+                            </div>
+                            <div class="layui-inline">
+                                <select id="showStatus" >
+                               	    <option value="-1">上架状态</option>
+                                    <option value="1">上架</option>
+                                    <option value="2">下架</option>
+                                </select>
+                            </div>
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <input class="layui-input start-date" name="start_date" placeholder="开始日">
+                                </div>
+                                <div class="layui-input-inline">
+                                    <input class="layui-input end-date" name="end_date" placeholder="截止日">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <input class="layui-input" name="keyword" placeholder="关键字">
+                                </div>
+                            </div>
+                            <div class="layui-inline" sec:authorize-url="/admin/good/list2">
+                                <button class="layui-btn" onclick="searchList(1)">查找</button>
+                            </div>
+                        </div>
+                </section>
+                <!--列表-->
+                <section class="panel panel-padding">
+                    <div class="group-button">
+                        <button class="layui-btn layui-btn-small layui-btn-danger ajax-all" data-name="ids" data-params='{"url": "/admin/good/update/status","data":"status=4&showStatus=2","confirm":"true","complete":"complete"}'>
+                            <i class="iconfont">&#xe626;</i> 删除
+                        </button>
+                        <button class="layui-btn layui-btn-small layui-btn-normal ajax-all" data-name="ids" data-params='{"url": "/admin/good/update/status","data":"showStatus=1&status=2","complete":"complete"}'>
+                            <i class="iconfont">&#xe603;</i> 上架
+                        </button>
+                        <button class="layui-btn layui-btn-small layui-btn-normal ajax-all" data-name="ids" data-params='{"url": "/admin/good/update/status","data":"showStatus=2&status=3","complete":"complete"}'>
+                            <i class="iconfont">&#xe604;</i> 下架
+                        </button>
+                        <button class="layui-btn layui-btn-small layui-btn-normal ajax-all" data-name="ids" data-params='{"url": "/admin/good/update/status","data":"status=2","complete":"complete"}'>
+                            <i class="layui-icon">&#x1005;</i> 启用
+                        </button>
+                        <button class="layui-btn layui-btn-small modal-iframe" data-params='{"content": "/admin/good/add", "title": "添加文章","full":"true"}'>
+                            <i class="iconfont">&#xe649;</i> 添加
+                        </button>
+                    </div>
+                    <div id="list" class="layui-form"></div>
+
+                    <div class="text-right" id="page"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/static/jqadmin/js/layui/layui.js"></script>
+<script src="/static/jquery.min.js"></script>
+<script type="text/javascript" src="/static/jqadmin/js/version.js"></script>
+<script>
+	layui.use(['jqdate','ajax']);
+	function searchList(pageNum){
+		//load实例
+		$("#list").html("").load("/admin/good/list_",{pageNum:pageNum,status:$("#status").val(),showStatus:$("#showStatus").val(),startDate:$("#start_date").val(),endDate:$("#end_date").val()});
+	}
+	//初始化数据加载
+	searchList(1);
+	function complete(){
+		//load实例
+		var pageNum = $("#pageNum").val();
+		searchList(pageNum);
+	}
+</script>
+</html>

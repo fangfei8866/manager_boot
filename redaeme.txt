@@ -1,0 +1,6 @@
+1 生成实体maven命令:(当前只生成mapper,dao po)
+mybatis-generator:generate 
+
+2 现在自己实现生成controller 和sevice seviceImple 还有 前端的列表
+
+

@@ -1,0 +1,102 @@
+<div th:replace="includeFTL/header"></div>
+<link rel="stylesheet" type="text/css" href="/static/jqadmin/css/webuploader.css?v=0.1.5" media="all">
+<body>
+    <div class="container-fluid larry-wrapper">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <section class="panel panel-padding">
+                    <form id="form1" class="layui-form layui-form-pane" action="/admin/good/update" complete="complete">
+                    	<input type="hidden" th:value="${good.id}" name="id">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题</label>
+                            <div class="layui-input-block">
+                                <input th:value="${good.goodsName}" type="text" name="goodsName" required jq-verify="required|goodsName" jq-error="请输入标题" placeholder="请输入标题" autocomplete="off" class="layui-input ">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">促销标题</label>
+                            <div class="layui-input-block">
+                                <input th:value="${good.suitTarget}" type="text" name="suitTarget" required jq-verify="required|goodsName" jq-error="请输入促销标题" placeholder="请输入标题" autocomplete="off" class="layui-input ">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">卖点</label>
+                            <div class="layui-input-block">
+                                <input th:value="${good.sellingPoints}" type="text" name="sellingPoints" placeholder="请输入关键字，多个请用英文逗号隔开" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item ">
+                            <label class="layui-form-label">摘要</label>
+                            <div class="layui-input-block">
+                                <textarea th:text="${good.goodsSummary}" name="goodsSummary" placeholder="请输入描述" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">所属分类</label>
+                            <div class="layui-input-inline">
+                                <select th:switch="${good.goodsType}" name="goodsType" jq-verify="required" jq-error="请输入分类" lay-filter="verify">
+                                    <option value="1" th:case="1" th:selected="selected" >课程</option>
+                                    <option value="2" th:case="2" th:selected="selected" >旧专题</option>
+                                    <option value="3" th:case="3" th:selected="selected" >服务</option>
+                                    <option value="4" th:case="4" th:selected="selected" >新专题</option>
+                                    <option value="5" th:case="5" th:selected="selected" >直播</option>
+                                    <option value="6" th:case="6" th:selected="selected" >实战专题</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item ">
+                            <label class="layui-form-label">市场价</label>
+                            <span class="left-icon"><i class="iconfont">&#xe690;</i></span>
+                            <div class="layui-input-inline">
+                                <input th:value="${good.goodsPrice}" type="text" name="goodsPrice"  required jq-verify="required|decimals" jq-error="请输入标题" placeholder="请输入市场价" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item ">
+
+                            <label class="layui-form-label">销售价</label>
+                            <span class="left-icon"><i class="iconfont">&#xe690;</i></span>
+                            <div class="layui-input-inline">
+                                <input th:value="${good.goodsRebatePrice}" type="text" name="goodsRebatePrice" required jq-verify="required|decimals" placeholder="请输入销售价" autocomplete="off" class="layui-input">
+                            </div>
+
+                        </div>
+                       <div class="layui-form-item">
+			                <label class="layui-form-label">上传图片</label>
+			                <div class="layui-input-block">
+			                    <input type="file" name="file" class="layui-upload-file">
+			                    <input type="hidden" name="imgUrl">
+			                    <p id="img-error" class="error"></p>
+			                </div>
+			            </div>
+                        <div class="layui-form-item layui-form-text">
+							<label class="layui-form-label">描述</label>
+                            <div class="layui-input-block">
+                                <textarea th:text="${good.goodsExplain}" name="goodsExplain" jq-verify="content" id="conntent" style="display:none;"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" jq-submit data-ajax="true" lay-filter="submit">立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="/static/jqadmin/js/layui/layui.js"></script>
+<script type="text/javascript" src="/static/jqadmin/js/version.js"></script>
+<script>
+    layui.use('product');
+    function complete(){
+    	parent.layer.closeAll();
+		//load实例
+		var pageNum = parent.$("#pageNum").val();
+		parent.searchList(pageNum);
+	}
+    
+</script>
+
+</html>

@@ -1,0 +1,75 @@
+<div class="layui-form">
+  <table class="layui-table">
+    <colgroup>
+      <col width="50">
+      <col width="250">
+      <col>
+      <col width="150">
+      <col width="200">
+    </colgroup>
+    <thead>
+      <tr>
+        <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+        <th >序号</th>
+        <th>商品名称</th>
+        <th>上架状态</th>
+        <th>启用状态</th>
+        <th>原价</th>
+		<th>折后价</th>
+		<th>启用时间</th>
+        <th>操作</th>
+      </tr> 
+    </thead>
+    <tbody>  
+      <tr th:each="item, objStat: ${pageInfo.list}">  
+        <td><input type="checkbox" name="ids" th:value="${item.id}" lay-skin="primary"></td>
+	        <td th:text="${item.id}" >1</td>
+	        <td th:text="${item.goodsName}" >1</td>
+	        <td th:text="${item.showStatusStr}" >1</td>
+	        <td th:text="${item.statusStr}" >1</td>
+	        <td th:text="${item.goodsPrice}">1</td>
+	        <td th:text="${item.goodsRebatePrice+' 元'}" >1</td>
+	        <td th:text="${item.enableTimeStr}" >1</td>
+	        <td>
+	            <button class="layui-btn layui-btn-mini modal-iframe"  th:attr="data-params=${'{&quot;content&quot;: &quot;/admin/good/edit/'+item.id+'&quot;, &quot;title&quot;: &quot;编辑商品&quot;,&quot;full&quot;:&quot;true&quot;}'}">
+	                <i class="iconfont">&#xe653;</i>编辑
+	            </button>
+	            <button class="layui-btn layui-btn-mini layui-btn-danger ajax" th:attr="data-params=${'{&quot;url&quot;: &quot;/admin/good/update/status&quot;,&quot;data&quot;:&quot;status=4&showStatus=2&ids='+item.id+'&quot;,&quot;complete&quot;:&quot;complete&quot;,&quot;confirm&quot;:&quot;true&quot;}'}">
+	                <i class="iconfont">&#xe626;</i>删除
+	            </button></td>
+	        </td>
+      </tr>  
+    </tbody>
+  </table>
+</div>
+<input type="hidden" th:value="${pageInfo.pageNum}" id="pageNum">  
+<input type="hidden" th:value="${pageInfo.pages}" id="pages"> 
+<script>
+layui.use(['modal','form','laypage','ajax'], function(){
+  var $ = layui.jquery,form = layui.form(),modal = layui.modal,
+      ajax = layui.ajax,laypage = layui.laypage;
+      modal.init();
+      ajax.init();
+  //全选
+  form.on('checkbox(allChoose)', function(data){
+    var child = $(data.elem).parents('table').find('tbody input[name="ids"]');
+    child.each(function(index, item){
+      item.checked = data.elem.checked;
+    });
+    form.render('checkbox');
+  });
+  form.render('checkbox');
+  laypage({
+	    cont: 'page'
+	    ,pages: $("#pages").val() //总页数
+	    ,groups: 5 //连续显示分页数
+	    ,first: 1
+	    ,curr:$("#pageNum").val()
+	    ,jump: function(obj, first){
+	    	 if (!first) {
+	    		 searchList(obj.curr);
+	         }
+	      }
+	  });
+});
+</script>

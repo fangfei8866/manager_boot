@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h1>错误信息</h1>
+<div class="layui-inline" sec:authorize-url="/admin/good/list">
+    <button class="layui-btn" onclick="searchList(1)">查找</button>
+</div>
+</body>
+</html>
